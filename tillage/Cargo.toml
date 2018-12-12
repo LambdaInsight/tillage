@@ -1,0 +1,10 @@
+[package]
+name = "tillage"
+version = "0.1.0"
+authors = ["Istvan Szukacs <istvan@lambdainsight.com>"]
+
+[dependencies]
+hyper = "0.12"
+futures = "0.1.25"
+ssh2 = "0.3"
+

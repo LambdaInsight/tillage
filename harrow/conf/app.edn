@@ -1,0 +1,8 @@
+{
+  :harrow-prod {
+    :thread-count 2
+    :thread-timeout 10000
+    :channel-timeout 50000
+    :message-types [:user :test]
+  }
+}
