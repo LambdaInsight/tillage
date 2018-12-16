@@ -1,6 +1,5 @@
 import os
-import "http"
+import http
 
-echo "LOL"
+echo("LOL")
 
-http.runforever()

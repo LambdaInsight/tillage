@@ -1,12 +1,18 @@
 import jester, posix
-import runForever from asyncdispatch
 
 onSignal(SIGABRT):
   echo "<2>Received SIGABRT"
   quit(1)
 
+settings:
+    port = Port(3003)
+
 routes:
   get "/":
     resp "OK"
 
-export runForever
+proc start():
+  var j = initJester(match)
+  j.serve()
+
+export start()
