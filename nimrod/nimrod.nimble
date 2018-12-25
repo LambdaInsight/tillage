@@ -1,14 +1,12 @@
+# Package
+
 version       = "0.1.0"
-author        = "Istvan Szukacs"
-description   = "www"
-license       = "MIT"
-
-skipFiles = @["todo.markdown"]
-skipDirs = @["tests"]
-
-
-srcDir = "src"
+author        = "Istvan"
+description   = "A new awesome nimble package"
+license       = "AAGPL"
+srcDir        = "src"
 bin           = @["nimrod"]
 
-requires "jester >= 0.4.1"
+# Dependencies
 
+requires "nim >= 0.19.0"

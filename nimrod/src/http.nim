@@ -1,18 +1,17 @@
-import jester, posix
+import asynchttpserver, asyncdispatch
 
-onSignal(SIGABRT):
-  echo "<2>Received SIGABRT"
-  quit(1)
+var server = newAsyncHttpServer(reuseAddr = true, reusePort = false, maxBody = 8388608)
 
-settings:
-    port = Port(3003)
+proc cb(req: Request) {.async.} =
+  let urii = req.url
+  case urii.path
+  of "/echo":
+    await req.respond(Http200, "Hello Echo!")
+  of "/":
+    await req.respond(Http200, "Hello /")
+  else:
+    await req.respond(Http404, "Not found! :(")
 
-routes:
-  get "/":
-    resp "OK"
+proc start_server* =
+  waitFor server.serve(Port(8080), cb)
 
-proc start():
-  var j = initJester(match)
-  j.serve()
-
-export start()

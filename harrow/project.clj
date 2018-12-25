@@ -4,6 +4,7 @@
   :license {:name "AGPL"
             :url "https://www.gnu.org/licenses/agpl-3.0.en.html"}
   :source-paths       ["src/clj"]
+  :java-source-paths ["src/java"]
   :aot :all
   :dependencies [
     [org.clojure/clojure                        "1.9.0"      ]
