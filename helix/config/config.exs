@@ -4,7 +4,11 @@ use Mix.Config
 config :helix, http_ip: {127, 0, 0, 1}
 config :helix, http_port: 8080
 config :helix, compress_body: true
-config :logger, level: :info
+config :logger, 
+  level: :info,
+  compile_time_purge_matching: [
+    [level_lower_than: :info]
+  ]
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment

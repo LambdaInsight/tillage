@@ -5,7 +5,7 @@ defmodule Helix.Application do
   require Logger
 
   # I want to limit use to ipv4 ip addresses
-  @type ip() :: {0..255, 0..255, 0..255, 0..255}
+  @type ipv4() :: {0..255, 0..255, 0..255, 0..255}
 
   def get_hostname(ipv4) do
     get_host_by_address = :inet_res.gethostbyaddr(ipv4)

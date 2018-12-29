@@ -16,13 +16,9 @@
       :exclusions [
         org.clojure/tools.reader
       ]                                                           ]
-    [org.rapidoid/rapidoid-http-server          "5.5.5"
-      :exclusions [
-        org.rapidoid/rapidoid-http-client
-        org.rapidoid/rapidoid-jpa
-        org.rapidoid/rapidoid-sql
-        org.hibernate/hibernate-entitymanager
-      ]                                                           ]
+    [compojure                                  "1.6.1"           ]
+    [ring/ring-json                             "0.4.0"           ]
+    [http-kit                                   "2.3.0"           ]
   ]
   :exclusions [
     javax.mail/mail

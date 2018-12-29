@@ -2,57 +2,61 @@
   (:require
     ; harrow
     ; external
-    [clojure.tools.logging  :as log       ] )
-  (:import
-    [org.rapidoid.config    Conf              ]
-    [org.rapidoid.setup     On OnRoute        ]
-    [org.rapidoid.http.impl RouteOptions      ]
-    [org.rapidoid.http      Req               ]
-    [org.rapidoid.http      ReqHandler        ]
-    [org.rapidoid.u         U                 ]
-    [java.util              Map               ]) )
+    [clojure.tools.logging  :as log       ]
+    [compojure.core         :as dsl       ]
+    [compojure.route        :as route     ]
+    [ring.middleware.json   :as json      ]
+    [ring.util.response     :as resp      ]
+    [org.httpkit.server     :as server    ]
+    ))
 
-;;;;;;;;;;;;;;;;;;
-(gen-class
-  :name harrow.http.handler
-  :prefix "handle-"
-  :methods [
-    ^:static [echo [org.rapidoid.http.Req] java.util.Map]
-  ])
 
-(defn handle-echo
+(defn get-user-by-id 
+  [_] 
+  :id)
+
+(defn main-handler
   [req]
-  (U/map (.headers req)))
-;;;;;;;;;;;;;;;;;
-
-(defn set-http-server-options
-  [l]
-  (let [http-conf (Conf/HTTP)]
-    (doseq [pair l]
-      (.set http-conf (first pair) (second pair)))))
-
-(defn get-http-server-options
-  []
-  (.toString (Conf/HTTP)))
-
-(defn set-http-get-route
-  ^OnRoute [^String path]
-  (.managed (On/get path) false))
-
-(defn get-route-options
-  ^RouteOptions [^OnRoute route]
-  (.options route))
-
-(defn config-handler
-  []
-  (U/map "ok" (.toMap (Conf/ROOT))))
+  (let [ resp { :status 200 
+                :headers {"Content-Type" "text/html" "X-header" "!签!"} 
+                :body "<h2>/</h2>"                             } ]
+    (log/debug req)
+    (log/debug resp)
+    ;;return
+    resp))
 
 (defn echo-handler
-  []
-  (reify ReqHandler
-    (execute
-      [this ^Req req]
-      (U/map (.headers req)))))
+  [req]
+  (let [  json-response 
+            (resp/response 
+              { :ok
+                {
+                  :remote-addr         (:remote-addr req)          
+                  :server-port         (:server-port req)          
+                  :character-encoding  (:character-encoding req)   
+                  :uri                 (:uri req)                  
+                  :server-name         (:server-name req)          
+                  :scheme              (:scheme req)
+                }              
+              } ) ]
+    (log/debug req)
+    (log/debug json-response)
+    ;;return
+    json-response))
 
+(defn enable-routes
+  []
+  (dsl/defroutes all-routes
+
+    (dsl/GET "/"      [] main-handler)
+    (dsl/GET "/echo"  [] (json/wrap-json-response echo-handler))
+
+    (route/files "/static/")
+    (route/not-found "<p>Page not found.</p>")))
+
+(defn start-http-server
+  [http-port]
+  (enable-routes)
+  (server/run-server all-routes {:port http-port}))
 
 
