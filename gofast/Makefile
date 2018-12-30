@@ -1,6 +1,6 @@
-helloworldserver: clean
+gofast: clean
 	go get -u github.com/valyala/fasthttp
 	go build
 
 clean:
-	rm -f helloworldserver
+	rm -f gofast
