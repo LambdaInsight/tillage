@@ -1,17 +1,13 @@
-# HelloWorld server example
+# Gofast
 
-* Displays various request info.
-* Sets response headers and cookies.
-* Supports transparent compression.
-
-# How to build
+## How to build
 
 ```
 make
 ```
 
-# How to run
+## How to run
 
 ```
-./helloworldserver -addr=tcp.addr.to.listen:to
+./gofast  -addr=172.172.3.39:8080
 ```
