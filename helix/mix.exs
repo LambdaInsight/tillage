@@ -14,7 +14,12 @@ defmodule Helix.MixProject do
 
   def application do
     [
-      extra_applications: [:logger, :guardian],
+      extra_applications: [
+        :logger, 
+        :guardian, 
+        :wx,
+        :observer,
+      ],
       mod: {Helix.Application, []}
     ]
   end

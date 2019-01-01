@@ -4,6 +4,9 @@ use Mix.Config
 config :helix, http_ip: {127, 0, 0, 1}
 config :helix, http_port: 8080
 config :helix, compress_body: true
+config :helix, num_acceptors: 128
+config :helix, max_connections: 32000
+config :helix, max_keepalive: 1024
 config :logger, 
   level: :info,
   compile_time_purge_matching: [
