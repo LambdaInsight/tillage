@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 java \
--Xmx2048m \
+-Xmx128m \
 -ea \
 -server \
 -XX:+UseG1GC \

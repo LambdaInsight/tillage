@@ -7,18 +7,12 @@
   :java-source-paths ["src/java"]
   :aot :all
   :dependencies [
-    [org.clojure/clojure                        "1.9.0"      ]
-    [org.clojure/core.async                     "0.4.490"         ]
-    [org.clojure/tools.logging                  "0.4.1"           ]
-    [log4j/log4j                                "1.2.17"          ]
-    [cheshire                                   "5.8.1"           ]
-    [com.taoensso/tufte                         "2.0.1"
-      :exclusions [
-        org.clojure/tools.reader
-      ]                                                           ]
-    [compojure                                  "1.6.1"           ]
-    [ring/ring-json                             "0.4.0"           ]
-    [http-kit                                   "2.3.0"           ]
+    [org.clojure/clojure                        "1.9.0"   ]
+    [org.clojure/tools.logging                  "0.4.1"   ]
+    [log4j/log4j                                "1.2.17"  ]
+    [metasoarous/oz                             "1.4.1"   ]
+    [criterium                                  "0.4.4"   ]
+    [com.clojure-goes-fast/clj-memory-meter     "0.1.2"   ]
   ]
   :exclusions [
     javax.mail/mail
@@ -34,6 +28,7 @@
     }
   }
  :jvm-opts [
+   "-Djdk.attach.allowAttachSelf=true"
    "-Xms256m" "-Xmx1024m" "-server"
    "-XX:+UseG1GC" "-XX:+UseNUMA"
    "-XX:MaxGCPauseMillis=300"

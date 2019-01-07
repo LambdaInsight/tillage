@@ -1,38 +1,43 @@
 (ns harrow.main
   (:require
     ; harrow
-    [harrow.util          :as util          ]
-    [harrow.http          :as http          ]
+    [harrow.util            :as util   ]
+    [harrow.exp-1           :as exp-1  ]
+    [harrow.exp-2           :as exp-2  ]
+    [harrow.exp-3           :as exp-3  ]
+    [harrow.exp-4           :as exp-4  ]
     ; external
-    [clojure.core.async     :refer
-      [ alts! chan go thread timeout
-       >! >!! <! <!! go-loop ]              ]
-    [clojure.tools.logging  :as log         ]
-    [cheshire.core          :as ches        ] )
+    [clojure.tools.logging  :as log    ] 
+    [criterium.core         :as crit   ] )
   (:import
-    [clojure.core.async.impl.channels         ManyToManyChannel                     ]
-    [clojure.lang                             PersistentHashMap PersistentArrayMap  ])
+    [clojure.lang PersistentHashMap PersistentArrayMap ] )
   (:gen-class))
-
-(def blocking-producer >!!)
-(def blocking-consumer <!!)
-
-(def non-blocking-producer >!)
-(def non-blocking-consumer <!)
 
 (defn -main
   [& args]
   (log/info "Starting up...")
-  (let [
-        ^PersistentHashMap  config            (util/read-config "conf/app.edn")
-                            http-port         8080                                    ]
+  (let  [ 
+          ^PersistentHashMap  config            (util/read-config "conf/app.edn") 
+                              iterations        100000
+        ]
     (cond
       (contains? config :ok)
         (do
           (log/debug config)
           (log/info "config [ok]")
-          (log/info (str "http server is starting on " "http://localhost:" http-port))
-          (http/start-http-server http-port))
+          (log/info "Experiment 1:")
+          (println (crit/quick-bench (exp-1/pi iterations)))
+          (println (crit/bench (exp-1/pi iterations)))
+          (log/info "Experiment 2:")
+          (println (crit/quick-bench (nth exp-2/pi-seq iterations)))
+          (println (crit/bench (nth exp-2/pi-seq iterations)))
+          (log/info "Experiment 3:")
+          (println (crit/quick-bench (exp-3/pi-estimate iterations)))
+          (println (crit/bench (exp-3/pi-estimate iterations)))
+          (log/info "Experiment 4:")
+          (println (crit/quick-bench (exp-4/pi-estimate iterations)))
+          (println (crit/bench (exp-4/pi-estimate iterations)))
+          (log/info "The end"))
       :else
         ;; exit 1 here
         (do
